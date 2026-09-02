@@ -11,11 +11,11 @@ Claude Code 플러그인. 팀이 코딩 에이전트와 일하기 위한 두 축
 
 ## 설치
 
-이 repo는 **플러그인 본체**다. 마켓플레이스 매니페스트는 별도 repo(`team-marketplace`)에 있다.
+이 repo는 **플러그인 본체**다. 마켓플레이스 매니페스트는 별도 repo(`signal-team-marketplace`)에 있다.
 
 ```bash
-/plugin marketplace add <owner>/team-marketplace
-/plugin install ai-ready-toolkit@team-marketplace
+/plugin marketplace add <owner>/signal-team-marketplace
+/plugin install ai-ready-toolkit@signal-team-marketplace
 ```
 
 팀 전체에 적용하려면 프로젝트의 `.claude/settings.json`에 넣는다. 레포를 클론한 사람은 자동으로 같은 구성을 받는다.
@@ -23,12 +23,12 @@ Claude Code 플러그인. 팀이 코딩 에이전트와 일하기 위한 두 축
 ```json
 {
   "extraKnownMarketplaces": {
-    "team-marketplace": {
-      "source": { "source": "github", "repo": "<owner>/team-marketplace" }
+    "signal-team-marketplace": {
+      "source": { "source": "github", "repo": "<owner>/signal-team-marketplace" }
     }
   },
   "enabledPlugins": {
-    "ai-ready-toolkit@team-marketplace": true
+    "ai-ready-toolkit@signal-team-marketplace": true
   }
 }
 ```
