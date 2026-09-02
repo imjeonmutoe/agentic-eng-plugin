@@ -11,12 +11,11 @@ Claude Code 플러그인. 팀이 코딩 에이전트와 일하기 위한 두 축
 
 ## 설치
 
-```bash
-# 마켓플레이스 등록
-/plugin marketplace add <이 repo의 URL 또는 로컬 경로>
+이 repo는 **플러그인 본체**다. 마켓플레이스 매니페스트는 별도 repo(`team-marketplace`)에 있다.
 
-# 플러그인 설치
-/plugin install ai-ready-toolkit@ai-ready-marketplace
+```bash
+/plugin marketplace add <owner>/team-marketplace
+/plugin install ai-ready-toolkit@team-marketplace
 ```
 
 팀 전체에 적용하려면 프로젝트의 `.claude/settings.json`에 넣는다. 레포를 클론한 사람은 자동으로 같은 구성을 받는다.
@@ -24,29 +23,38 @@ Claude Code 플러그인. 팀이 코딩 에이전트와 일하기 위한 두 축
 ```json
 {
   "extraKnownMarketplaces": {
-    "ai-ready-marketplace": {
-      "source": { "source": "github", "repo": "<owner>/<repo>" }
+    "team-marketplace": {
+      "source": { "source": "github", "repo": "<owner>/team-marketplace" }
     }
   },
   "enabledPlugins": {
-    "ai-ready-toolkit@ai-ready-marketplace": true
+    "ai-ready-toolkit@team-marketplace": true
   }
 }
 ```
 
 ## 사용
 
-설치 후 스킬 이름으로 호출한다.
+**슬래시 커맨드** — 명시적 호출. 인자를 받는다.
 
 ```
-/ai-ready-toolkit:ai-readiness-cartography   # 또는 "이 레포 AI 준비도 점수 매겨줘"
-/ai-ready-toolkit:wiki-ingest
-/ai-ready-toolkit:wiki-query
-/ai-ready-toolkit:wiki-lint
+/ai-ready-toolkit:ai-readiness [레포 경로]
+/ai-ready-toolkit:ingest       [raw 파일]
+/ai-ready-toolkit:query        [질문]
+/ai-ready-toolkit:lint         [범위]
 ```
 
-각 스킬은 description에 트리거 문구가 들어 있어서 슬래시 없이 평문으로 말해도 걸린다.
-("이 레포 agent-friendly 한지 봐줘", "raw에 넣었어", "위키에서 찾아줘", "린트 돌려줘")
+**스킬** — 평문으로 말하면 description이 매칭돼 자동으로 걸린다.
+
+```
+"이 레포 agent-friendly 한지 점수 매겨줘"   → ai-readiness-cartography
+"raw에 새 글 넣었어"                        → wiki-ingest
+"위키에서 X랑 Y 차이 찾아줘"                 → wiki-query
+"위키 상태 어때"                            → wiki-lint
+```
+
+커맨드 이름을 스킬 이름과 다르게 둔 것은 의도적이다. 같으면 `claude plugin details`에서
+같은 이름이 두 번 잡혀 어느 쪽이 불릴지 모호해진다.
 
 ## ai-readiness-cartography
 
