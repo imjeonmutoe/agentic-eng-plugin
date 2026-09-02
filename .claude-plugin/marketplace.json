@@ -1,0 +1,25 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "agentic-eng",
+  "description": "에이전틱 엔지니어링 팀 플러그인 마켓플레이스 — 세컨드 브레인 위키 관리(ingest/lint/query)와 레포 AI-Readiness 감사 도구를 한곳에서 배포한다.",
+  "owner": {
+    "name": "imjeonmutoe"
+  },
+  "plugins": [
+    {
+      "name": "agentic-eng-toolkit",
+      "source": "./agentic-eng-toolkit",
+      "description": "AI-Readiness 감사(/ai-readiness-cartography)와 세컨드 브레인 위키 워크플로우(/wiki-ingest, /wiki-lint, /wiki-query)를 슬래시 커맨드 + 자동 트리거 스킬로 제공한다.",
+      "version": "0.1.0",
+      "category": "productivity",
+      "keywords": [
+        "ai-readiness",
+        "second-brain",
+        "wiki",
+        "knowledge-base",
+        "codebase-audit",
+        "agentic-engineering"
+      ]
+    }
+  ]
+}

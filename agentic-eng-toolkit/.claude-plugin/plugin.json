@@ -1,0 +1,16 @@
+{
+  "name": "agentic-eng-toolkit",
+  "version": "0.1.0",
+  "description": "AI-Readiness 감사(/ai-readiness-cartography)와 세컨드 브레인 위키 워크플로우(/wiki-ingest, /wiki-lint, /wiki-query)를 슬래시 커맨드 + 자동 트리거 스킬로 제공하는 에이전틱 엔지니어링 팀 툴킷.",
+  "author": {
+    "name": "imjeonmutoe"
+  },
+  "license": "MIT",
+  "keywords": [
+    "ai-readiness",
+    "second-brain",
+    "wiki",
+    "codebase-audit",
+    "agentic-engineering"
+  ]
+}

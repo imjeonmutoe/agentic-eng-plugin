@@ -1,4 +1,4 @@
-# AI-Ready Toolkit
+# agentic-eng-toolkit
 
 Claude Code 플러그인. 팀이 코딩 에이전트와 일하기 위한 두 축을 담았다.
 
@@ -11,27 +11,9 @@ Claude Code 플러그인. 팀이 코딩 에이전트와 일하기 위한 두 축
 
 ## 설치
 
-이 디렉터리가 **플러그인 본체**다. 마켓플레이스 매니페스트는 별도 repo(`signal-team-marketplace`)에 있고,
-그쪽에서 이 경로(`plugins/ai-ready-toolkit`)를 `git-subdir` source로 가져간다.
-
 ```bash
-/plugin marketplace add imjeonmutoe/signal-team-marketplace
-/plugin install ai-ready-toolkit@signal-team-marketplace
-```
-
-팀 전체에 적용하려면 프로젝트의 `.claude/settings.json`에 넣는다. 레포를 클론한 사람은 자동으로 같은 구성을 받는다.
-
-```json
-{
-  "extraKnownMarketplaces": {
-    "signal-team-marketplace": {
-      "source": { "source": "github", "repo": "imjeonmutoe/signal-team-marketplace" }
-    }
-  },
-  "enabledPlugins": {
-    "ai-ready-toolkit@signal-team-marketplace": true
-  }
-}
+/plugin marketplace add imjeonmutoe/agentic-eng-plugin
+/plugin install agentic-eng-toolkit@agentic-eng
 ```
 
 ## 사용
@@ -39,10 +21,10 @@ Claude Code 플러그인. 팀이 코딩 에이전트와 일하기 위한 두 축
 **슬래시 커맨드** — 명시적 호출. 인자를 받는다.
 
 ```
-/ai-ready-toolkit:ai-readiness [레포 경로]
-/ai-ready-toolkit:ingest       [raw 파일]
-/ai-ready-toolkit:query        [질문]
-/ai-ready-toolkit:lint         [범위]
+/agentic-eng-toolkit:ai-readiness-cartography [레포 경로]
+/agentic-eng-toolkit:wiki-ingest              [raw 파일]
+/agentic-eng-toolkit:wiki-query               [질문]
+/agentic-eng-toolkit:wiki-lint                [범위]
 ```
 
 **스킬** — 평문으로 말하면 description이 매칭돼 자동으로 걸린다.
@@ -54,8 +36,16 @@ Claude Code 플러그인. 팀이 코딩 에이전트와 일하기 위한 두 축
 "위키 상태 어때"                            → wiki-lint
 ```
 
-커맨드 이름을 스킬 이름과 다르게 둔 것은 의도적이다. 같으면 `claude plugin details`에서
-같은 이름이 두 번 잡혀 어느 쪽이 불릴지 모호해진다.
+## 훅 — TDD 가드
+
+설치하면 `PreToolUse[Edit|Write]`에 TDD 가드가 걸린다. `.ts` `.tsx` `.js` `.jsx` 구현 파일을
+쓰려 할 때 대응하는 테스트 파일이 없으면 **차단**한다.
+
+통과시키는 것: 테스트/스펙 파일, `.md` `.json` `.css` `.yml`, 각종 config, `types/`,
+Next.js 프레임워크 파일(`page` `layout` `loading` `error` `not-found`).
+즉 위키 작업(마크다운)에는 영향이 없고 TS/JS 프로젝트에서만 동작한다.
+
+`jq`가 필요하다. 원치 않으면 `hooks/hooks.json`을 지우고 재설치한다.
 
 ## ai-readiness-cartography
 
