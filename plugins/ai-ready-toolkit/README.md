@@ -11,7 +11,8 @@ Claude Code 플러그인. 팀이 코딩 에이전트와 일하기 위한 두 축
 
 ## 설치
 
-이 repo는 **플러그인 본체**다. 마켓플레이스 매니페스트는 별도 repo(`signal-team-marketplace`)에 있다.
+이 디렉터리가 **플러그인 본체**다. 마켓플레이스 매니페스트는 별도 repo(`signal-team-marketplace`)에 있고,
+그쪽에서 이 경로(`plugins/ai-ready-toolkit`)를 `git-subdir` source로 가져간다.
 
 ```bash
 /plugin marketplace add imjeonmutoe/signal-team-marketplace
