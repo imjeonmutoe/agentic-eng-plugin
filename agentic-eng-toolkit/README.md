@@ -41,7 +41,11 @@ Claude Code 플러그인. 팀이 코딩 에이전트와 일하기 위한 두 축
 설치하면 `PreToolUse[Edit|Write]`에 TDD 가드가 걸린다. `.ts` `.tsx` `.js` `.jsx` 구현 파일을
 쓰려 할 때 대응하는 테스트 파일이 없으면 **차단**한다.
 
-통과시키는 것: 테스트/스펙 파일, `.md` `.json` `.css` `.yml`, 각종 config, `types/`,
+레포 루트에 `package.json`이 없으면 아무것도 하지 않는다 — 테스트 프레임워크가 깔리기 전
+부트스트랩 단계까지 막지 않기 위해서다.
+
+통과시키는 것: 테스트/스펙 파일(`*.test.*` `*.spec.*` `__tests__/` `tests/`), `.md` `.json`
+`.css` `.yml`, `*.config.js|ts|mjs|cjs`, `types/`, `.claude/`, `workflows/`,
 Next.js 프레임워크 파일(`page` `layout` `loading` `error` `not-found`).
 즉 위키 작업(마크다운)에는 영향이 없고 TS/JS 프로젝트에서만 동작한다.
 
