@@ -11,9 +11,26 @@ if [ -z "$FILE_PATH" ]; then
   exit 0
 fi
 
+# 프로젝트가 아직 스캐폴딩되지 않았으면(package.json 없음) TDD 가드를 건너뛴다.
+# 테스트 프레임워크가 깔리기 전(MVP 부트스트랩)에는 강제할 대상이 없기 때문.
+# package.json이 생기면 이후 모든 lib/소스 편집에 TDD가 적용된다.
+ROOT=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
+if [ ! -f "$ROOT/package.json" ]; then
+  exit 0
+fi
+
 # 테스트 파일 자체를 수정하는 건 허용
 case "$FILE_PATH" in
-  *test*|*spec*|*.test.*|*.spec.*|*__tests__*)
+  *.test.*|*.spec.*|*__tests__*|*/tests/*|*/test/*)
+    exit 0
+    ;;
+esac
+
+# .claude/ 인프라(설정·훅·슬래시 커맨드)와 workflows/ 오케스트레이션 스크립트는 TDD 비대상 — 허용.
+# 이유: 워크플로우 스크립트는 런타임이 주입하는 전역(agent/pipeline/log)에 의존하는 오케스트레이션
+#       정의로, lib/services 비즈니스 로직이 아니며 유닛 테스트를 붙일 수 없다.
+case "$FILE_PATH" in
+  */.claude/*|*/workflows/*)
     exit 0
     ;;
 esac
