@@ -52,3 +52,15 @@ push 전에 로컬에서 검증한다.
 ```bash
 claude plugin validate .
 ```
+
+## 테스트
+
+TDD 가드의 허용/차단 규칙은 전부 glob 패턴이라, 하나를 넓히면 테스트 없는 구현 파일이
+조용히 통과한다 — 차단 로그가 남지 않아 눈치채기 어렵다. 회귀 테스트가 그 종류를 잡는다.
+
+```bash
+bash tests/tdd-guard.test.sh
+```
+
+임시 디렉터리에 픽스처 레포를 만들어 훅 입력 JSON 을 직접 먹이고 allow/deny 판정을 검증한다.
+`jq` 외에 의존성은 없고, 모든 push 와 PR 에서 CI 로도 돌아간다.
