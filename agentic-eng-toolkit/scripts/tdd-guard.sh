@@ -37,7 +37,7 @@ esac
 
 # 설정/타입/스타일 파일은 테스트 불필요 — 허용
 case "$FILE_PATH" in
-  *.json|*.css|*.scss|*.md|*.yml|*.yaml|*.env*|*.config.*|*tailwind*|*postcss*|*next.config*|*tsconfig*)
+  *.json|*.css|*.scss|*.md|*.yml|*.yaml|*/.env|*/.env.*|*.config.js|*.config.ts|*.config.mjs|*.config.cjs)
     exit 0
     ;;
 esac

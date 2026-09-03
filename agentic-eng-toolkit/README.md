@@ -45,7 +45,7 @@ Claude Code 플러그인. 팀이 코딩 에이전트와 일하기 위한 두 축
 부트스트랩 단계까지 막지 않기 위해서다.
 
 통과시키는 것: 테스트/스펙 파일(`*.test.*` `*.spec.*` `__tests__/` `tests/`), `.md` `.json`
-`.css` `.yml`, 각종 config, `types/`, `.claude/`, `workflows/`,
+`.css` `.yml`, `*.config.js|ts|mjs|cjs`, `types/`, `.claude/`, `workflows/`,
 Next.js 프레임워크 파일(`page` `layout` `loading` `error` `not-found`).
 즉 위키 작업(마크다운)에는 영향이 없고 TS/JS 프로젝트에서만 동작한다.
 
