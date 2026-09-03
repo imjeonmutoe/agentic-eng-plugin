@@ -41,6 +41,10 @@ Claude Code 플러그인. 팀이 코딩 에이전트와 일하기 위한 두 축
 설치하면 `PreToolUse[Edit|Write]`에 TDD 가드가 걸린다. `.ts` `.tsx` `.js` `.jsx` 구현 파일을
 쓰려 할 때 대응하는 테스트 파일이 없으면 **차단**한다.
 
+테스트는 세 곳에서 찾는다 — 같은 폴더의 `foo.test.ts` `foo.spec.ts`, 이웃한
+`__tests__/foo.test.ts`(같은 폴더와 부모 폴더), 그리고 `src/` 아래 파일에 한해
+`src/__tests__/foo.test.ts`. 마지막 경로는 `src/` 밖 파일에는 적용되지 않는다.
+
 레포 루트에 `package.json`이 없으면 아무것도 하지 않는다 — 테스트 프레임워크가 깔리기 전
 부트스트랩 단계까지 막지 않기 위해서다.
 

@@ -35,13 +35,14 @@ setup_fixture() {
   git init -q . 2>/dev/null
   printf '{"name":"fixture","private":true}' > package.json
 
-  mkdir -p lib/__tests__ src/__tests__ src/deep app types .claude/hooks workflows tests/e2e test/helpers
+  mkdir -p lib/__tests__ src/__tests__ src/deep src/a/b app types .claude/hooks workflows tests/e2e test/helpers
 
   # 짝이 되는 테스트가 있는 구현 — 통과해야 한다
   : > lib/cart.ts;             : > lib/cart.test.ts
   : > lib/coupon.ts;           : > lib/__tests__/coupon.test.ts
   : > lib/legacy.js;           : > lib/legacy.spec.js
   : > src/deep/widget.ts;      : > src/__tests__/widget.test.ts
+  : > src/a/b/widget.ts
 
   # 차단 대상은 파일을 만들지 않는다 — Write 로 새 파일을 만드는 상황을 그대로 재현한다.
 }
@@ -106,11 +107,15 @@ group "짝이 되는 테스트가 있으면 통과"
 expect lib/cart.ts              allow "같은 폴더 .test.ts"
 expect lib/coupon.ts            allow "lib/__tests__/"
 expect lib/legacy.js            allow "같은 폴더 .spec.js"
-expect src/deep/widget.ts       allow "src/__tests__/ 루트 폴더"
-# src/__tests__/ 폴백은 basename 만 보고 레포 전역에서 찾는다. 즉 src/__tests__/widget.test.ts
-# 하나가 경로와 무관하게 모든 widget.* 를 허용한다. 의도된 느슨함이므로 동작을 고정해 둔다 —
-# 좁히려면 이 케이스가 먼저 깨진다.
-expect lib/widget.jsx           allow "basename 전역 매칭(느슨함, 의도됨)"
+expect src/deep/widget.ts       allow "src/ 한 단계 하위 — 검사 #2 가 커버"
+expect src/a/b/widget.ts        allow "src/ 깊은 경로 — src/__tests__/ 중앙 폴더가 커버"
+
+group "src/__tests__/ 중앙 폴더는 src/ 밖으로 새지 않는다"
+# 예전엔 basename 만 보고 레포 전역에서 찾아서, src/__tests__/widget.test.ts 하나가
+# lib/widget.jsx 처럼 전혀 다른 트리의 파일까지 허용했다. 그 경계를 고정한다.
+expect lib/widget.jsx           deny "다른 트리 — src/__tests__/widget.test.ts 로 커버되지 않는다"
+expect app/widget.tsx           deny "다른 트리"
+expect components/widget.ts     deny "다른 트리"
 
 group "테스트 파일 자체는 통과"
 expect lib/cart.test.ts             allow "*.test.*"

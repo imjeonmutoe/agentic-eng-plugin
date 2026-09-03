@@ -85,15 +85,25 @@ case "$FILE_PATH" in
       done
     fi
 
-    # src/__tests__/ 루트 테스트 폴더
+    # src/__tests__/ 중앙 테스트 폴더 — src/ 아래 파일에만 적용한다.
+    # 위 두 검사가 src/ 바로 아래와 한 단계 하위까지는 이미 커버하므로, 여기가 맡는 건
+    # src/a/b/deep.ts 처럼 더 깊은 파일이다.
+    # 경로 조건 없이 basename 만 보던 시절에는 src/__tests__/widget.test.ts 하나가
+    # lib/widget.jsx 처럼 전혀 다른 트리의 파일까지 허용했다.
+    # 기준 경로는 FILE_PATH 에서 직접 유도한다 — git rev-parse 는 심볼릭 링크가 낀 경로에서
+    # /private/var 와 /var 처럼 다른 표기를 돌려줘 접두사 비교가 깨진다.
     if [ "$TEST_FOUND" = false ]; then
-      PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo ".")
-      for EXT in ts tsx js jsx; do
-        if [ -f "${PROJECT_ROOT}/src/__tests__/${BASENAME}.test.${EXT}" ]; then
-          TEST_FOUND=true
-          break
-        fi
-      done
+      case "$FILE_PATH" in
+        */src/*)
+          SRC_ROOT="${FILE_PATH%/src/*}/src"
+          for EXT in ts tsx js jsx; do
+            if [ -f "${SRC_ROOT}/__tests__/${BASENAME}.test.${EXT}" ]; then
+              TEST_FOUND=true
+              break
+            fi
+          done
+          ;;
+      esac
     fi
 
     if [ "$TEST_FOUND" = false ]; then
